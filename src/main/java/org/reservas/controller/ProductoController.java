@@ -1,3 +1,5 @@
+package org.reservas.controller;
+
 import org.reservas.dto.ProductoDTO;
 import org.reservas.model.Producto;
 import org.reservas.service.ProductoService;
