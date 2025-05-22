@@ -25,16 +25,18 @@ public class Producto {
     @JoinColumn(name = "categoria_id", nullable = false)
     private Categoria categoria;
 
-    @ElementCollection
-    private List<String> imagenes;
-
     @ManyToMany
-    @JoinTable(name = "producto_caracteristica",
+    @JoinTable(
+            name = "producto_caracteristica",
             joinColumns = @JoinColumn(name = "producto_id"),
-            inverseJoinColumns = @JoinColumn(name = "caracteristica_id"))
+            inverseJoinColumns = @JoinColumn(name = "caracteristica_id")
+    )
     private List<Caracteristica> caracteristicas;
 
+    @ElementCollection
+    private List<String> imagenes;
 }
+
 
 
 
