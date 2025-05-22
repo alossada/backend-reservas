@@ -29,10 +29,12 @@ public class CategoriaService {
 
     // Metodo para listar todas las categorías como DTOs
     public List<CategoriaDTO> listarTodasDTO() {
-        return categoriaRepository.findAll().stream().map(categoria -> {
+        return categoriaRepository.findAll().stream().map(cat -> {
             CategoriaDTO dto = new CategoriaDTO();
-            dto.setId(categoria.getId());
-            dto.setTitulo(categoria.getTitulo());
+            dto.setId(cat.getId());
+            dto.setTitulo(cat.getTitulo());
+            dto.setDescripcion(cat.getDescripcion());   // 👈
+            dto.setImagen(cat.getImagen());             // 👈
             return dto;
         }).collect(Collectors.toList());
     }

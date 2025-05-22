@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/productos")
 @CrossOrigin(origins = "http://localhost:3000")
@@ -43,6 +45,13 @@ public class ProductoController {
             return ResponseEntity.badRequest().body(new ErrorResponse("error", e.getMessage()));
         }
     }
+// Metodo para filtrar productos por una o más categorías
+@GetMapping("/filtrar")
+public ResponseEntity<List<Producto>> filtrarPorCategorias(@RequestParam List<Long> categorias) {
+    List<Producto> productos = service.buscarPorCategorias(categorias);
+    return ResponseEntity.ok(productos);
+}
+
 
     // Clase de respuesta de error
     public static class ErrorResponse {

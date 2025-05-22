@@ -111,6 +111,14 @@ public class ProductoService {
         }).collect(Collectors.toList());
     }
 
+    //Metodo para filtrar producto por categoria
+    public List<Producto> buscarPorCategorias(List<Long> categoriaIds) {
+        return productoRepository.findByCategoriaIdIn(categoriaIds);
+    }
+
+
+
+
 
     // Metodo para eliminar un producto
     public void eliminar(Long id) throws Exception {
