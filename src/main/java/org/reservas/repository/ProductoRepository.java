@@ -8,8 +8,9 @@ import java.util.Optional;
 
 public interface ProductoRepository extends JpaRepository<Producto, Long> {
     Optional<Producto> findByNombre(String nombre);
+
     List<Producto> findByCategoriaIdIn(List<Long> categoriaIds);
 
-
+    // método para buscar por una sola categoría
+    List<Producto> findByCategoriaId(Long categoriaId);
 }
-

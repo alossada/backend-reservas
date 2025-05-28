@@ -52,6 +52,17 @@ public ResponseEntity<List<Producto>> filtrarPorCategorias(@RequestParam List<Lo
     return ResponseEntity.ok(productos);
 }
 
+    // Nuevo metodo para obtener productos por ID de categoría
+    @GetMapping("/categoria/{id}")
+    public ResponseEntity<List<Producto>> obtenerProductosPorCategoria(@PathVariable Long id) {
+        try {
+            List<Producto> productos = service.buscarPorCategoria(id);
+            return ResponseEntity.ok(productos);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
 
     // Clase de respuesta de error
     public static class ErrorResponse {

@@ -27,10 +27,8 @@ public class ProductoService {
     @Autowired
     private CaracteristicaRepository caracteristicaRepository;
 
-
-    // Metodo para guardar un producto desde un DTO
+    // Método para guardar un producto desde un DTO
     public Producto guardarDesdeDTO(ProductoDTO dto) throws Exception {
-        // Validaciones
         if (dto.getNombre() == null || dto.getNombre().trim().isEmpty()) {
             throw new Exception("El nombre del producto es obligatorio");
         }
@@ -43,23 +41,19 @@ public class ProductoService {
             throw new Exception("El producto debe tener una categoría seleccionada");
         }
 
-        // Validación de unicidad del nombre
         if (productoRepository.findByNombre(dto.getNombre()).isPresent()) {
             throw new Exception("Ya existe un producto con ese nombre");
         }
 
-        // Buscar la categoría
         Categoria categoria = categoriaRepository.findById(dto.getCategoria().getId())
                 .orElseThrow(() -> new Exception("Categoría no encontrada con ID: " + dto.getCategoria().getId()));
 
-        // Crear el producto
         Producto producto = new Producto();
         producto.setNombre(dto.getNombre().trim());
         producto.setDescripcion(dto.getDescripcion().trim());
         producto.setImagenes(dto.getImagenes() != null ? dto.getImagenes() : List.of());
         producto.setCategoria(categoria);
 
-        // Asociar características si existen
         if (dto.getCaracteristicas() != null && !dto.getCaracteristicas().isEmpty()) {
             List<Caracteristica> caracteristicas = dto.getCaracteristicas().stream()
                     .map(carDTO -> caracteristicaRepository.findById(carDTO.getId())
@@ -73,7 +67,7 @@ public class ProductoService {
         return productoRepository.save(producto);
     }
 
-    // Metodo para listar todos los productos como DTOs
+    // Método para listar todos los productos como DTOs
     public List<ProductoDTO> listarTodosDTO() {
         return productoRepository.findAll().stream().map(producto -> {
             ProductoDTO dto = new ProductoDTO();
@@ -92,7 +86,6 @@ public class ProductoService {
                 dto.setCategoria(categoriaDTO);
             }
 
-            // Mapear las características del producto a CaracteristicaDTO
             if (producto.getCaracteristicas() != null && !producto.getCaracteristicas().isEmpty()) {
                 List<CaracteristicaDTO> caracteristicasDTO = producto.getCaracteristicas().stream()
                         .map(car -> {
@@ -111,16 +104,17 @@ public class ProductoService {
         }).collect(Collectors.toList());
     }
 
-    //Metodo para filtrar producto por categoria
+    // Método para filtrar productos por múltiples categorías
     public List<Producto> buscarPorCategorias(List<Long> categoriaIds) {
         return productoRepository.findByCategoriaIdIn(categoriaIds);
     }
 
+    // 🔥 Nuevo método para buscar productos por una sola categoría
+    public List<Producto> buscarPorCategoria(Long categoriaId) {
+        return productoRepository.findByCategoriaId(categoriaId);
+    }
 
-
-
-
-    // Metodo para eliminar un producto
+    // Método para eliminar un producto
     public void eliminar(Long id) throws Exception {
         if (!productoRepository.existsById(id)) {
             throw new Exception("Producto no encontrado");
@@ -128,6 +122,4 @@ public class ProductoService {
         productoRepository.deleteById(id);
     }
 }
-
-
 
