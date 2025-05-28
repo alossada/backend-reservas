@@ -33,6 +33,12 @@ public class Producto {
     )
     private List<Caracteristica> caracteristicas;
 
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
+    @jakarta.validation.constraints.NotNull
+    @com.fasterxml.jackson.annotation.JsonIgnore        // evita bucle infinito en JSON
+    private List<Reserva> reservas = List.of();
+
+
     @ElementCollection
     private List<String> imagenes;
 }
